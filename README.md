@@ -51,4 +51,4 @@ Unity의 .meta는 원본 파일과 함께 버전 관리하며 이동 시에도 �
 - .gitattributes 기준 모델·이미지·오디오의 Git LFS 적용 확인
 - Library, Temp, Logs 등 생성 파일은 .gitignore로 제외
 
-1인칭 기본 조작과 원룸 블록아웃 구현. 실행 방법은 [조작 테스트 안내](Documentation/first-person-test.md) 및 [원룸 블록아웃 안내](Documentation/room-blockout.md) 참고. 사물 상호작용은 후속 작업.
+1인칭 기본 조작, 원룸 블록아웃 및 기본 사물 조사 구현. 실행 방법은 [조작 테스트 안내](Documentation/first-person-test.md), [원룸 블록아웃 안내](Documentation/room-blockout.md), [사물 조사 안내](Documentation/interaction.md) 참고.

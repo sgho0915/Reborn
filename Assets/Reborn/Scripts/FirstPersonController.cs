@@ -19,10 +19,18 @@ namespace Reborn
         private float verticalSpeed;
         private bool captured;
         private bool skipLook;
+        private bool explorationBlocked;
 
         public float MoveSpeed => moveSpeed;
         public float Pitch => pitch;
         public bool IsCaptured => captured && Cursor.lockState == CursorLockMode.Locked;
+        public bool ExplorationBlocked => explorationBlocked;
+
+        public void SetExplorationBlocked(bool blocked)
+        {
+            explorationBlocked = blocked;
+            if (blocked) ReleaseCursor();
+        }
 
         private void Awake()
         {
@@ -50,6 +58,7 @@ namespace Reborn
 
         private void Update()
         {
+            if (explorationBlocked) return;
             if (release.WasPressedThisFrame()) { ReleaseCursor(); return; }
             if (captured && Cursor.lockState != CursorLockMode.Locked) ReleaseCursor();
             if (!Application.isFocused) return;
@@ -79,7 +88,7 @@ namespace Reborn
 
         public void ApplyLook(Vector2 delta)
         {
-            if (view == null) return;
+            if (explorationBlocked || view == null) return;
             transform.Rotate(0f, delta.x * lookSensitivity, 0f);
             pitch = Mathf.Clamp(pitch - delta.y * lookSensitivity, -pitchLimit, pitchLimit);
             view.localRotation = Quaternion.Euler(pitch, 0f, 0f);
@@ -88,7 +97,7 @@ namespace Reborn
         public void StepMovement(Vector2 input, float deltaTime)
         {
             if (controller == null) controller = GetComponent<CharacterController>();
-            if (deltaTime <= 0f || !controller.enabled) return;
+            if (explorationBlocked || deltaTime <= 0f || !controller.enabled) return;
             input = Vector2.ClampMagnitude(input, 1f);
             if (controller.isGrounded && verticalSpeed < 0f) verticalSpeed = -2f;
             verticalSpeed = Mathf.Max(verticalSpeed + Physics.gravity.y * deltaTime, -30f);
@@ -100,6 +109,7 @@ namespace Reborn
 
         private void OnGUI()
         {
+            if (explorationBlocked) return;
             GUI.Box(new Rect(16, 16, 390, 54), IsCaptured
                 ? "WASD: Walk  |  Mouse: Look  |  Esc: Release cursor"
                 : "Click to start / resume\nWASD: Walk  |  Mouse: Look  |  Esc: Release cursor");

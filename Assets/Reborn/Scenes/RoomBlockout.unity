@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -4595,7 +4595,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7539243430500897320, guid: d2448f4ba717d42bca501b8001d72acc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1223790239}
   m_SourcePrefab: {fileID: 100100000, guid: d2448f4ba717d42bca501b8001d72acc, type: 3}
 --- !u!1 &1067148551
 GameObject:
@@ -5112,6 +5115,7 @@ GameObject:
   - component: {fileID: 1125432262}
   - component: {fileID: 1125432261}
   - component: {fileID: 1125432260}
+  - component: {fileID: 1125432263}
   m_Layer: 0
   m_Name: Diary
   m_TagString: Untagged
@@ -5212,6 +5216,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1125432258}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1125432263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125432258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec121f4b27594a43821016875bc60bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reborn.InspectableObject
+  stableId: room.diary
+  displayName: "\uC77C\uAE30\uC7A5"
+  description: "\uCC45\uC0C1 \uC704\uC5D0 \uB193\uC778 \uC77C\uAE30\uC7A5.\n\n[\uC870\uC0AC \uB3D9\uC791 \uAC80\uC99D\uC6A9 \uC124\uBA85. \uC2E4\uC81C \uC77C\uAE30 \uC6D0\uBB38\uACFC \uD398\uC774\uC9C0 \uB118\uAE30\uAE30\uB294 \uD6C4\uC18D \uB2E8\uACC4\uC5D0\uC11C \uC5F0\uACB0.] "
 --- !u!1 &1146332197
 GameObject:
   m_ObjectHideFlags: 0
@@ -5448,6 +5467,7 @@ GameObject:
   - component: {fileID: 1182053436}
   - component: {fileID: 1182053435}
   - component: {fileID: 1182053434}
+  - component: {fileID: 1182053437}
   m_Layer: 0
   m_Name: Printer
   m_TagString: Untagged
@@ -5548,6 +5568,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182053432}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1182053437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182053432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec121f4b27594a43821016875bc60bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reborn.InspectableObject
+  stableId: room.printer
+  displayName: "\uD504\uB9B0\uD130"
+  description: "\uCC45\uC0C1 \uB05D\uC5D0 \uB193\uC778 \uD504\uB9B0\uD130.\n\n[\uC870\uC0AC \uB3D9\uC791 \uAC80\uC99D\uC6A9 \uC124\uBA85. \uCD9C\uB825\uBB3C\uACFC \uCD9C\uB825 \uC5F0\uCD9C\uC740 \uD6C4\uC18D \uB2E8\uACC4\uC5D0\uC11C \uC5F0\uACB0.] "
+--- !u!1 &1223790235 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7539243430500897320, guid: d2448f4ba717d42bca501b8001d72acc, type: 3}
+  m_PrefabInstance: {fileID: 1052098371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1223790239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223790235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa401bce47ab941ebb0afe05f80ab5b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reborn.InteractionController
+  reach: 2
 --- !u!1 &1224000802
 GameObject:
   m_ObjectHideFlags: 0
@@ -5784,6 +5837,7 @@ GameObject:
   - component: {fileID: 1243588224}
   - component: {fileID: 1243588223}
   - component: {fileID: 1243588222}
+  - component: {fileID: 1243588225}
   m_Layer: 0
   m_Name: Umbrella placeholder
   m_TagString: Untagged
@@ -5884,6 +5938,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243588220}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1243588225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243588220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec121f4b27594a43821016875bc60bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reborn.InspectableObject
+  stableId: room.umbrella
+  displayName: "\uC811\uD78C \uC6B0\uC0B0"
+  description: "\uD604\uAD00 \uC606\uC5D0 \uC811\uD78C \uC6B0\uC0B0\uC774 \uB193\uC5EC \uC788\uB2E4.\n\n[\uC870\uC0AC \uB3D9\uC791 \uAC80\uC99D\uC6A9 \uC124\uBA85. \uB4E4\uACE0 \uAC00\uAE30\uC640 \uC18C\uD488 \uC0AC\uC6A9\uC740 \uD6C4\uC18D \uB2E8\uACC4\uC5D0\uC11C \uC5F0\uACB0.] "
 --- !u!1 &1262015562
 GameObject:
   m_ObjectHideFlags: 0
@@ -6568,6 +6637,7 @@ GameObject:
   - component: {fileID: 1377226056}
   - component: {fileID: 1377226055}
   - component: {fileID: 1377226054}
+  - component: {fileID: 1377226057}
   m_Layer: 0
   m_Name: Calendar February placeholder
   m_TagString: Untagged
@@ -6668,6 +6738,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377226052}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1377226057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377226052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec121f4b27594a43821016875bc60bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reborn.InspectableObject
+  stableId: room.calendar
+  displayName: "2\uC6D4 \uB2EC\uB825"
+  description: "\uBCBD\uC5D0 \uAC78\uB9B0 \uB2EC\uB825\uC740 2\uC6D4\uC5D0 \uBA38\uBB3C\uB7EC \uC788\uB2E4.\n\n[\uB0A0\uC9DC \uB3C4\uC548\uACFC \uADFC\uC811 \uD45C\uD604\uC740 \uD6C4\uC18D \uB2E8\uACC4\uC5D0\uC11C \uC5F0\uACB0.] "
 --- !u!1 &1383229839
 GameObject:
   m_ObjectHideFlags: 0
