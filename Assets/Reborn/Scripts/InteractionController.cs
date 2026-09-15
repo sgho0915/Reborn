@@ -17,6 +17,9 @@ namespace Reborn
         private Font font;
         private GUIStyle textStyle;
         private Vector2 scroll;
+        private CarryableObject carried;
+        private ItemPlacementTarget placement;
+        public CarryableObject Carried => carried;
         public InspectableObject Selected => selected;
         public InspectableObject Inspected => inspected;
         public float Reach => reach;
@@ -31,13 +34,22 @@ namespace Reborn
         private void OnEnable() { inspect?.Enable(); close?.Enable(); }
         private void OnDisable()
         {
-            inspect?.Disable(); close?.Disable(); EndInspect(); selected = null;
+            inspect?.Disable(); close?.Disable(); EndInspect(); CancelCarry(); selected = null;
         }
         private void OnDestroy()
         { inspect?.Dispose(); close?.Dispose(); if (font) Destroy(font); }
 
         private void LateUpdate()
         {
+            if (carried && (!carried.isActiveAndEnabled || carried.Current != CarryableObject.Location.Held)) carried = null;
+            if (carried)
+            {
+                selected = null;
+                if (Application.isFocused && close.WasPressedThisFrame()) { CancelCarry(); return; }
+                placement = Application.isFocused && player.IsCaptured ? FindPlacementTarget() : null;
+                if (placement && inspect.WasPressedThisFrame()) TryUseCarried();
+                return;
+            }
             if (player.ExplorationBlocked)
             {
                 if (!inspected || !inspected.isActiveAndEnabled || close.WasPressedThisFrame()) EndInspect();
@@ -59,7 +71,7 @@ namespace Reborn
 
         public bool TryInspect()
         {
-            if (player.ExplorationBlocked) return false;
+            if (carried || player.ExplorationBlocked) return false;
             // Re-check distance, visibility and existence at action time.
             var target = FindTarget();
             if (!target) return false;
@@ -73,6 +85,38 @@ namespace Reborn
             inspected = null; selected = null;
             if (player) player.SetExplorationBlocked(false);
             // Stay released; the next deliberate click resumes exploration.
+        }
+
+        public bool TryCarryInspected()
+        {
+            if (carried || !inspected || !inspected.isActiveAndEnabled) return false;
+            // Do not use a stale panel after a prop moved out of range or behind an obstacle.
+            if (FindTarget() != inspected) return false;
+            var item = inspected.GetComponent<CarryableObject>();
+            if (!item || !item.TryHold(view.transform)) return false;
+            carried = item; EndInspect(); return true;
+        }
+
+        public ItemPlacementTarget FindPlacementTarget()
+        {
+            if (!view || !Physics.Raycast(view.transform.position,view.transform.forward,out var hit,
+                reach,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore)) return null;
+            var target=hit.collider.GetComponentInParent<ItemPlacementTarget>();
+            return target && target.isActiveAndEnabled ? target : null;
+        }
+
+        public bool TryUseCarried()
+        {
+            if (!carried) return false;
+            var target=FindPlacementTarget();
+            if (!target || !target.TryAccept(carried)) return false;
+            carried=null; placement=null; return true;
+        }
+
+        public void CancelCarry()
+        {
+            if (carried) carried.Recover();
+            carried=null; placement=null;
         }
 
         private void OnGUI()
@@ -94,8 +138,22 @@ namespace Reborn
                 scroll = GUILayout.BeginScrollView(scroll);
                 GUILayout.Label(inspected.Description, textStyle);
                 GUILayout.EndScrollView();
-                if (GUILayout.Button("닫기 (Esc)", textStyle, GUILayout.Height(40))) EndInspect();
+                var movable=inspected.GetComponent<CarryableObject>();
+                bool take=movable && movable.Current==CarryableObject.Location.Home
+                    && GUILayout.Button("들고 가기",textStyle,GUILayout.Height(40));
+                bool dismiss=GUILayout.Button("닫기 (Esc)", textStyle, GUILayout.Height(40));
                 GUILayout.EndArea();
+                if(take) TryCarryInspected();
+                else if(dismiss) EndInspect();
+                return;
+            }
+            if (carried)
+            {
+                GUI.Label(new Rect(16,80,600,80),"들고 있음: " + carried.Item.DisplayName + "\nEsc: 원래 자리에 되놓기",textStyle);
+                if (!player.IsCaptured) return;
+                GUI.Label(new Rect(Screen.width/2f-5,Screen.height/2f-12,20,24),"·",textStyle);
+                if (placement) GUI.Label(new Rect(Screen.width/2f-200,Screen.height/2f+28,400,90),
+                    placement.CanAccept(carried) ? "E  놓기 — " + placement.DisplayName : "여기에는 놓을 수 없어",textStyle);
                 return;
             }
             if (!player.IsCaptured) return;
